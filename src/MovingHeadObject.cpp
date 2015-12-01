@@ -1,10 +1,3 @@
-//
-//  MovingHeadObject.cpp
-//
-//  Created by shohei fujimoto on 10/20/15.
-//
-//
-
 #include "MovingHeadObject.h"
 
 MovingHeadObject::MovingHeadObject()
@@ -345,6 +338,12 @@ float MovingHeadObject::panAngle(ofVec3f v)
     theta = (d1*d1 + d3*d3 - d2*d2) / (2 * d1 * d3);
     
     float angle = acos(theta) * (180/PI);
+
+    if(re_v3.x == 0)
+    {
+        angle = 90;
+        return angle;
+    }
     
     if(re_v3.x >= 0 && re_v3.y <= 0)// area 1
     {

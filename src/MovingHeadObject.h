@@ -1,10 +1,3 @@
-//
-//  MovingHeadObject.h
-//
-//  Created by shohei fujimoto on 10/20/15.
-//
-//
-
 #ifndef __MovingHeadObject__
 #define __MovingHeadObject__
 
