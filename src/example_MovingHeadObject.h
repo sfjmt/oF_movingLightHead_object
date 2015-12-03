@@ -24,10 +24,13 @@ public:
     MovingHeadObject *_movingHead8;
     
     ofSpherePrimitive *_sphere0;
+    ofPlanePrimitive *_plane;
     vector<ofSpherePrimitive> _spheres;
     
     int _posX, _posY, _posZ;
     vector<ofVec3f> _positions;
+    
+    ofVec3f _camPos;
     
     int MODE;
 };

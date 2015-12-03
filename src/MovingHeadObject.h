@@ -10,24 +10,27 @@ public:
     MovingHeadObject();
     ~MovingHeadObject();
     
+    ofVec3f getPosition();
     int getAnglePan();
     int getAngleTilt();
     
-    void rotateX(int val);
-    void rotateY(int val);
-    void rotateZ(int val);
+    void setRotateX(int val);
+    void setRotateY(int val);
+    void setRotateZ(int val);
     
-    void set_name(string name);
+    void setName(string name);
     
-    void set_objectColor(int r, int g, int b, int a);
-    void set_monitorColor(int r, int g, int b, int a);
-    void set_lineColor(int r, int g, int b, int a);
-    void set_lineWidth(int lineWidth);
+    void setObjectColor(int r, int g, int b, int a);
+    void setObjectColor(int gray, int a);
+    void setMonitorColor(int r, int g, int b, int a);
+    void setLineColor(int r, int g, int b, int a);
+    void setLineColor(int gray, int a);
+    void setLineWidth(int lineWidth);
     
-    void set_rotatePan(int angle);
-    void set_rotateTilt(int angle);
-    void set_position(ofVec3f v);
-    void set_targetPosition(ofVec3f v);
+    void setRotatePan(int angle);
+    void setRotateTilt(int angle);
+    void setPosition(ofVec3f v);
+    void setChasePosition(ofVec3f v);
     
     void setup(float objectScale=1.0);
     

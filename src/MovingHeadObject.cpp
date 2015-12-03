@@ -40,6 +40,12 @@ MovingHeadObject::~MovingHeadObject()
 }
 
 //--------------------------------------------------------------
+ofVec3f MovingHeadObject::getPosition()
+{
+    return ofVec3f(_translateX,_translateY,_translateZ);
+}
+
+//--------------------------------------------------------------
 int MovingHeadObject::getAnglePan()
 {
     return _angle_pan;
@@ -52,67 +58,79 @@ int MovingHeadObject::getAngleTilt()
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::rotateX(int val)
+void MovingHeadObject::setRotateX(int val)
 {
     _rotateX = val;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::rotateY(int val)
+void MovingHeadObject::setRotateY(int val)
 {
     _rotateY = val;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::rotateZ(int val)
+void MovingHeadObject::setRotateZ(int val)
 {
     _rotateZ = val;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_name(string name)
+void MovingHeadObject::setName(string name)
 {
     MY_NAME = name;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_objectColor(int r, int g, int b, int a)
+void MovingHeadObject::setObjectColor(int r, int g, int b, int a)
 {
     _objectColor = ofColor(r,g,b,a);
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_monitorColor(int r, int g, int b, int a)
+void MovingHeadObject::setObjectColor(int gray, int a)
+{
+    _objectColor = ofColor(gray,gray,gray,a);
+}
+
+//--------------------------------------------------------------
+void MovingHeadObject::setMonitorColor(int r, int g, int b, int a)
 {
     _monitorColor = ofColor(r,g,b,a);
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_lineColor(int r, int g, int b, int a)
+void MovingHeadObject::setLineColor(int r, int g, int b, int a)
 {
     _lineColor = ofColor(r,g,b,a);
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_lineWidth(int lineWidth)
+void MovingHeadObject::setLineColor(int gray, int a)
+{
+    _lineColor = ofColor(gray,gray,gray,a);
+}
+
+//--------------------------------------------------------------
+void MovingHeadObject::setLineWidth(int lineWidth)
 {
     _lineWidth = lineWidth;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_rotatePan(int angle)
+void MovingHeadObject::setRotatePan(int angle)
 {
     _angle_pan = angle;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_rotateTilt(int angle)
+void MovingHeadObject::setRotateTilt(int angle)
 {
     _angle_tilt = angle;
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_position(ofVec3f v)
+void MovingHeadObject::setPosition(ofVec3f v)
 {
     _translateX = v.x;
     _translateY = v.y;
@@ -120,25 +138,25 @@ void MovingHeadObject::set_position(ofVec3f v)
 }
 
 //--------------------------------------------------------------
-void MovingHeadObject::set_targetPosition(ofVec3f v)
+void MovingHeadObject::setChasePosition(ofVec3f v)
 {
     _getRawPosition = v;
     
     ofQuaternion qr;
     ofQuaternion qp;
     ofQuaternion qy;
-
+    
     qr = ofQuaternion(-_rotateX, _AXIS_X_NORMAL);
     qp = ofQuaternion(-_rotateY, _AXIS_Y_NORMAL);
     qy = ofQuaternion(-_rotateZ, _AXIS_Z_NORMAL);
-
+    
     ofQuaternion qt;// total quaternion
     
     qt = qr * qp * qy;
     
     ofMatrix4x4 m;
     m.setRotate(qt);
-
+    
     ofVec3f translate_v = ofVec3f(v.x - _translateX,
                                   v.y - _translateY,
                                   v.z - _translateZ);
@@ -148,7 +166,7 @@ void MovingHeadObject::set_targetPosition(ofVec3f v)
     _targetPosition = ofVec3f(_targetPosition.x,
                               _targetPosition.y,
                               _targetPosition.z);
-
+    
     ofVec3f v1 = ofVec3f(0, 0, 0);
     ofVec3f v2 = ofVec3f(_targetPosition.x, _targetPosition.y, _targetPosition.z);
     ofVec3f v3 = ofVec3f(_targetPosition.x, 0, _targetPosition.z);
@@ -195,22 +213,22 @@ void MovingHeadObject::draw()
 {
     ofPushMatrix();
     
-        ofSetColor(_lineColor);
-        ofSetLineWidth(_lineWidth);
-        ofLine(_translateX, _translateY, _translateZ, _getRawPosition.x, _getRawPosition.y, _getRawPosition.z);
+    ofSetColor(_lineColor);
+    ofSetLineWidth(_lineWidth);
+    ofLine(_translateX, _translateY, _translateZ, _getRawPosition.x, _getRawPosition.y, _getRawPosition.z);
     
-        ofTranslate(_translateX, _translateY, _translateZ);
+    ofTranslate(_translateX, _translateY, _translateZ);
     
-        ofRotateX(_rotateX);
-        ofRotateY(_rotateY);
-        ofRotateZ(_rotateZ);
+    ofRotateX(_rotateX);
+    ofRotateY(_rotateY);
+    ofRotateZ(_rotateZ);
     
-        draw_pan_status();
-        draw_tilt_status();
-        draw_base_status();
-        draw_monitor_status();
+    draw_pan_status();
+    draw_tilt_status();
+    draw_base_status();
+    draw_monitor_status();
     
-        if(DEBUG)ofDrawAxis(300);
+    if(DEBUG)ofDrawAxis(300);
     
     ofPopMatrix();
 }
@@ -224,23 +242,23 @@ void MovingHeadObject::draw(ofVec3f v)
     
     ofPushMatrix();
     
-        ofSetColor(_lineColor);
-        ofSetLineWidth(_lineWidth);
-        ofLine(_translateX, _translateY, _translateZ, _getRawPosition.x, _getRawPosition.y, _getRawPosition.z);
+    ofSetColor(_lineColor);
+    ofSetLineWidth(_lineWidth);
+    ofLine(_translateX, _translateY, _translateZ, _getRawPosition.x, _getRawPosition.y, _getRawPosition.z);
     
-        ofTranslate(_translateX, _translateY, _translateZ);
+    ofTranslate(_translateX, _translateY, _translateZ);
     
-        ofRotateX(_rotateX);
-        ofRotateY(_rotateY);
-        ofRotateZ(_rotateZ);
+    ofRotateX(_rotateX);
+    ofRotateY(_rotateY);
+    ofRotateZ(_rotateZ);
     
-        draw_pan_status();
-        draw_tilt_status();
-        draw_base_status();
-        draw_monitor_status();
+    draw_pan_status();
+    draw_tilt_status();
+    draw_base_status();
+    draw_monitor_status();
     
-        if(DEBUG)ofDrawAxis(300);
-
+    if(DEBUG)ofDrawAxis(300);
+    
     ofPopMatrix();
 }
 
@@ -250,25 +268,25 @@ void MovingHeadObject::draw(float x, float y, float z)
     _translateX = x;
     _translateY = y;
     _translateZ = z;
-
+    
     ofPushMatrix();
     
-        ofSetColor(_lineColor);
-        ofSetLineWidth(_lineWidth);
-        ofLine(_translateX, _translateY, _translateZ, _getRawPosition.x, _getRawPosition.y, _getRawPosition.z);
-        
-        ofTranslate(_translateX, _translateY, _translateZ);
+    ofSetColor(_lineColor);
+    ofSetLineWidth(_lineWidth);
+    ofLine(_translateX, _translateY, _translateZ, _getRawPosition.x, _getRawPosition.y, _getRawPosition.z);
     
-        ofRotateX(_rotateX);
-        ofRotateY(_rotateY);
-        ofRotateZ(_rotateZ);
-
-        draw_pan_status();
-        draw_tilt_status();
-        draw_base_status();
-        draw_monitor_status();
-
-        if(DEBUG)ofDrawAxis(300);
+    ofTranslate(_translateX, _translateY, _translateZ);
+    
+    ofRotateX(_rotateX);
+    ofRotateY(_rotateY);
+    ofRotateZ(_rotateZ);
+    
+    draw_pan_status();
+    draw_tilt_status();
+    draw_base_status();
+    draw_monitor_status();
+    
+    if(DEBUG)ofDrawAxis(300);
     
     ofPopMatrix();
 }
@@ -278,9 +296,9 @@ void MovingHeadObject::draw_pan_status()
 {
     ofPushMatrix();
     
-        ofSetColor(_objectColor);
-        ofRotateY(_angle_pan);
-        _obj_pan->draw();
+    ofSetColor(_objectColor);
+    ofRotateY(_angle_pan);
+    _obj_pan->draw();
     
     ofPopMatrix();
 }
@@ -290,11 +308,11 @@ void MovingHeadObject::draw_tilt_status()
 {
     ofPushMatrix();
     
-        ofSetColor(_objectColor);
-        ofRotateY(_angle_pan);
-        ofRotateZ(_angle_tilt);
-        ofTranslate(_obj_tilt->getHeight()/2, 0);
-        _obj_tilt->draw();
+    ofSetColor(_objectColor);
+    ofRotateY(_angle_pan);
+    ofRotateZ(_angle_tilt);
+    ofTranslate(_obj_tilt->getHeight()/2, 0);
+    _obj_tilt->draw();
     
     ofPopMatrix();
 }
@@ -316,9 +334,9 @@ void MovingHeadObject::draw_monitor_status()
 {
     ofPushMatrix();
     
-        ofSetColor(_monitorColor);
-        ofTranslate(0, -_obj_base->getDepth(), -_obj_base->getWidth()/2);
-        _obj_monitor->draw();
+    ofSetColor(_monitorColor);
+    ofTranslate(0, -_obj_base->getDepth(), -_obj_base->getWidth()/2);
+    _obj_monitor->draw();
     
     ofPopMatrix();
 }
@@ -338,7 +356,7 @@ float MovingHeadObject::panAngle(ofVec3f v)
     theta = (d1*d1 + d3*d3 - d2*d2) / (2 * d1 * d3);
     
     float angle = acos(theta) * (180/PI);
-
+    
     if(re_v3.x == 0)
     {
         angle = 90;
