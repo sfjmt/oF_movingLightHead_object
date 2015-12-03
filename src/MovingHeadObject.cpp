@@ -32,6 +32,11 @@ MovingHeadObject::MovingHeadObject()
     _objectScale = 1.0;
     
     DEBUG = false;
+    
+    PAN_MIN  = 0;
+    PAN_MAX  = 540;
+    TILT_MIN = -35;
+    TILT_MAX = 215;
 }
 
 MovingHeadObject::~MovingHeadObject()
@@ -73,6 +78,30 @@ void MovingHeadObject::setRotateY(int val)
 void MovingHeadObject::setRotateZ(int val)
 {
     _rotateZ = val;
+}
+
+//--------------------------------------------------------------
+void MovingHeadObject::setPanMin(int angle)
+{
+    PAN_MIN = angle;
+}
+
+//--------------------------------------------------------------
+void MovingHeadObject::setPanMax(int angle)
+{
+    PAN_MAX = angle;
+}
+
+//--------------------------------------------------------------
+void MovingHeadObject::setTiltMin(int angle)
+{
+    TILT_MIN = angle;
+}
+
+//--------------------------------------------------------------
+void MovingHeadObject::setTiltMax(int angle)
+{
+    TILT_MAX = angle;
 }
 
 //--------------------------------------------------------------
@@ -383,7 +412,7 @@ float MovingHeadObject::panAngle(ofVec3f v)
         _preArea = 4;
     }
     
-    if(angle >= 0 && angle <= 540)// 0 ~ 540 (total : 540)
+    if(angle >= PAN_MIN && angle <= PAN_MAX)
     {
         return angle;
     }
@@ -403,7 +432,7 @@ float MovingHeadObject::tiltAngle(ofVec3f v1, ofVec3f v2, ofVec3f v3)
     theta = (d1*d1 + d3*d3 - d2*d2) / (2 * d1 * d3);
     float angle = acos(theta) * (180/PI);
     
-    if(angle >= -35 && angle <= 215)// -35 ~ 215 (total : 250)
+    if(angle >= TILT_MIN && angle <= TILT_MAX)
     {
         return angle;
     }

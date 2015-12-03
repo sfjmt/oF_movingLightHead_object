@@ -18,6 +18,11 @@ public:
     void setRotateY(int val);
     void setRotateZ(int val);
     
+    void setPanMin(int angle);
+    void setPanMax(int angle);
+    void setTiltMin(int angle);
+    void setTiltMax(int angle);
+    
     void setName(string name);
     
     void setObjectColor(int r, int g, int b, int a);
@@ -58,6 +63,8 @@ private:
     
     string MY_NAME;
     bool DEBUG;
+    int PAN_MIN,PAN_MAX;
+    int TILT_MIN,TILT_MAX;
     
     int _angle_pan;
     int _angle_tilt;
